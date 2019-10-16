@@ -1,0 +1,15 @@
+<li [ngClass]="{'list-group-item' : true,'list-group-item-success' : blogPost.loveIts > 0,'list-group-item-danger' : blogPost.loveIts < 0}">
+    
+    <div class="row">
+        <h3 style="font-weight: bold; width: 50%" class="col-md-6">{{ blogPost.title }}</h3>
+        <span style="font-style: italic; font-size: 14px; text-align: right;" class="col-md-6">{{blogPost.createdAt | date :'short'}}</span>
+    </div>
+    
+    <p> {{blogPost.content}}</p>
+        
+    <div class="row" style="padding: 5px 15px;">
+        <button class="btn btn-success" style="margin-right: 3px" (click)="positiveLike()">Love it</button>
+        <button class="btn btn-danger" style="margin-right: 3px" (click)="negativeLike()">Don't love it</button>
+        <span [ngClass]="{'btn' : true, 'btn-success' : blogPost.loveIts > 0, 'btn-danger' : blogPost.loveIts < 0}">{{blogPost.loveIts}}</span>
+    </div>
+</li>
