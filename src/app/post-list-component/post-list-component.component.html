@@ -1,4 +1,10 @@
 
-<ul class="list-group-item">
-        <app-post-list-item-component *ngFor="let blogPost of listPosts" [blogPost]="blogPost"> </app-post-list-item-component>
+<h2>Articles du Blog</h2>
+<div class="row">
+<ul class="list-group-item"  >
+        <app-post-list-item-component *ngFor="let blogPost of posts" [blogPost]="blogPost"> </app-post-list-item-component>
 </ul>
+</div>
+<div class="row marge">
+        <button class="btn btn-primary pull-right" (click)="onNewPost()">Nouvel article</button>
+</div>

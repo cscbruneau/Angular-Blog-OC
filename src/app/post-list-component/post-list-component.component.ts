@@ -1,20 +1,36 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { Post } from '../app.component';
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
+import { Post } from '../models/post.models';
+import { Subscription } from 'rxjs';
+import { PostsService } from '../services/posts.service';
+import { Router } from '@angular/router';
+import { post } from 'selenium-webdriver/http';
 
 @Component({
   selector: 'app-post-list-component',
   templateUrl: './post-list-component.component.html',
   styleUrls: ['./post-list-component.component.scss']
 })
-export class PostListComponentComponent {
+export class PostListComponentComponent implements OnInit{
 
-@Input() listPosts : Post[];
+  posts: Post[];
+  postsSubscription: Subscription;
 
+  constructor(private router: Router, private postsService: PostsService){}
 
-  constructor() { }
+  ngOnInit(){
 
-  ngOnInit() {
-    console.log("baba "+this.listPosts[0].content);
+    this.postsSubscription = this.postsService.postsSubject.subscribe(
+      (rPosts: Post[]) => {
+        this.posts = rPosts;
+      }
+    );
+    this.postsService.getPosts();
+    
+    this.postsService.emitPosts();
+  }
+
+  onNewPost(){
+    this.router.navigate(['/posts','new']);
   }
 
 }

@@ -1,27 +1,42 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Post } from '../app.component';
+import { Post } from '../models/post.models';
+import { PostsService } from '../services/posts.service';
 
 @Component({
   selector: 'app-post-list-item-component',
   templateUrl: './post-list-item-component.component.html',
   styleUrls: ['./post-list-item-component.component.scss']
 })
-export class PostListItemComponentComponent implements OnInit {
+export class PostListItemComponentComponent{
 
 @Input() blogPost : Post;
 
-  constructor() { }
-
-  ngOnInit() {
-    console.log("toto "+this.blogPost.content);
-  }
+  constructor(private postService: PostsService) { }
 
   positiveLike(){
-    return this.blogPost.loveIts ++;
+
+    this.blogPost.loveIts ++;
+
+    this.updateRecords();
+
+    return this.blogPost.loveIts;
   }
 
   negativeLike(){
-    return this.blogPost.loveIts --;
+    this.blogPost.loveIts --;
+
+    this.updateRecords();
+
+    return this.blogPost.loveIts;
+  }
+
+  updateRecords(){
+    this.postService.savePosts();
+    this.postService.emitPosts();
+  }
+
+  onDeletePost(post: Post){
+    this.postService.deletePost(post);
   }
 
 }
